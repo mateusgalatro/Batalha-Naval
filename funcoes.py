@@ -41,3 +41,31 @@ def posiciona_frota(frota):
                 coluna = posicao[1]
                 tabuleiro[linha][coluna] = 1
     return tabuleiro
+def afundados(frota, tabuleiro):
+    total_afundados = 0
+    for tipo in frota:
+        for navio in frota[tipo]:
+            partes_atingidas = 0
+            for posicao in navio:
+                linha = posicao[0]
+                coluna = posicao[1]
+                if tabuleiro[linha][coluna] == 'X':
+                    partes_atingidas += 1
+            if partes_atingidas == len(navio):
+                total_afundados += 1
+    return total_afundados
+def posicao_valida(frota, linha, coluna, orientacao, tamanho):
+    posicoes = define_posicoes(linha, coluna, orientacao, tamanho)
+    for posicao in posicoes:
+        linha_atual = posicao[0]
+        coluna_atual = posicao[1]
+        if linha_atual < 0 or linha_atual > 9:
+            return False
+        if coluna_atual < 0 or coluna_atual > 9:
+            return False
+        for tipo in frota:
+            for navio in frota[tipo]:
+                if posicao in navio:
+                    return False
+    return True
+
